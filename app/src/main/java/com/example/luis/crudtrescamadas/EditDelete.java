@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 
 public class EditDelete extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class EditDelete extends AppCompatActivity {
     private DogDB dogDB;
     private Dog dog;
     private String TAG = "editTag";
+    public TextToSpeech tts;
 
 
     @Override
@@ -94,6 +97,21 @@ public class EditDelete extends AppCompatActivity {
         } else {
             imageView.setImageResource(R.drawable.ic_launcher_background);
         }
+
+        //A parte da fala Beu Amigo
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        @Override
+        public void onInit(int i) {
+        tts.setLanguage(Locale.UK);
+        falar();
+            }
+        });
+    }
+
+    public void falar(){
+        String frase = "Nome "+ name.getText().toString() + " Raça " + breed.getText().toString() + " Sexo " +
+                sex.getText().toString() + " tamanho " + size.getText().toString()+ " My Master ";
+        tts.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public void loadImage(View view) {
